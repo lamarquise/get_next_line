@@ -13,17 +13,19 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUFF_SIZE 32		//right spot???
+# define BUFF_SIZE 1		//right spot???
 # define DELIM '\n'			//do i need the ' ' ???`
 
-
+# include "libft.h"
 # include <unistd.h>
 # include <stdlib.h>
 
 typedef struct	s_gnllst
 {
 	char				*save;
+	size_t				*len;					//necessary? maybe not but ca mange pas de pain
 	int					fd;
+//	struct s_gnllst		*start;
 	struct s_gnllst		*next;
 }				t_gnllst;
 
