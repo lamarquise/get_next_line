@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:56:51 by erlazo            #+#    #+#             */
-/*   Updated: 2018/11/22 18:49:21 by erlazo           ###   ########.fr       */
+/*   Updated: 2018/12/04 20:19:12 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,49 @@
 	// and returns a failed or not value
 	//we have room to add more error conditions, which should come in handy...
 
-void	gnl(const int fd, char **line, t_gnllst **elem)			// leaving it void for now
+int		gnl( char **line, t_gnllst *elem)			// leaving it void for now
 {															// don't actually need to send fd, it's already there
-	char	buff[BUFF_SIZE + 1];
+	char	buff[BUFF_SIZE + 1];		// why +1....
 	int		i;
+	int		ch;
 
 
 	printf("further test1\n");
 	
+	ch = 1;
+	if (!(*line = ft_strdup(elem->save)))
+		return (-1);
+	while (ch)
+	{
+		ft_strclr((*elem)->save);
+		if ((*elem)->len = read(elem->fd, &buff, BUFF_SIZE) < 0 )
+			return (-1);
+		i = ft_findchar(buff, DELIM);
+		if (!(*line = ft_strjoin(*line, ft_strncpy(ft_strnew(i), buff, i))))
+			return (-1);
+		if (i < BUFF_SIZE || (*elem)->len < BUFF_SIZE)
+		{
+			if (!((*elem)->save = ft_strncpy(ft_strnew(i), buff, i)))
+				return (-1);
+			ch = 0;
+		}
+	}
+	ft_strdel(&buff);
+	return (1);			//or maybe 0....
+
+
+
+
+
+
+/*
+
 	(*elem)->len = 0;								//init elsewhere
 	i = 0;
 
 	printf("further test2\n");
 
-	while (read(fd, &buff, BUFF_SIZE) > 0)
+	while ((*elem)->len = read(fd, &buff, BUFF_SIZE) > 0)		// this needs to be an if, otherwise will read everything, that's not what we want...
 	{
 		printf("further test3\n");
 		i = (int)ft_strchr(buff, DELIM) - (int)buff;
@@ -53,33 +82,27 @@ void	gnl(const int fd, char **line, t_gnllst **elem)			// leaving it void for no
 	(*elem)->save = *line;
 //		free(buff);				// ????
 	return ;			// or is it 1 ???
+
+	*/
 }
 
 int		get_next_line(const int fd, char **line)
 {
 	static t_gnllst		*lst = NULL;			//double pointer ???
 	t_gnllst			*new_elem;
-//	t_gnllst			*tmp;
-
-	
-//	tmp = NULL;
+	t_gnllst			*tmp;
 	
 //	printf("inner test1\n");
 	
-
-//	if (*lst)
-//		tmp = *lst;
+	tmp = lst;
 
 //	printf("inner test2\n");
 
-	while (lst)
+	while (tmp && tmp->next)
 	{
-		if (lst->fd == fd)
-		{
-			gnl(fd, line, &lst);
-			return (1);				// i think it's 1
-		}
-		lst = lst->next;
+		if (tmp->fd == fd)
+			return (gnl(line, tmp));
+		tmp = tmp->next;
 	}
 
 //	printf("inner test3\n");
@@ -94,22 +117,21 @@ int		get_next_line(const int fd, char **line)
 
 //	printf("inner test5, elem->fd: %i\n", new_elem->fd);
 
-	if (!lst)
-		lst = new_elem;
+	if (!tmp)
+		tmp = new_elem;
 	else
 		lst->next = new_elem;
 
 	printf("inner test6\n");
 
-	gnl(fd, line, &new_elem);
-	return (1);
+	return (gnl(line, new_elem));
 
 // free aroud here i guess or maybe in the othe func, like if get to \0 then you free the element of the node.
 // or have the return of the other func indicate that it has reached the end and then here free the node.
 	// yea this needs some work...
 
 
-
+// 1 if returned a thing that can be read, 0 if there's nothing left to be read, and -1 if it failed
 
 
 
