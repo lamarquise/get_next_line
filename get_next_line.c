@@ -25,7 +25,7 @@
 
 int		gnl( char **line, t_gnllst *elem)			// leaving it void for now
 {															// don't actually need to send fd, it's already there
-	char	buff[BUFF_SIZE + 1];		// why +1....
+	char	*buff;		// why +1....
 	int		i;
 	int		ch;
 
@@ -33,23 +33,37 @@ int		gnl( char **line, t_gnllst *elem)			// leaving it void for now
 	printf("further test1\n");
 	
 	ch = 1;
-	if (!(*line = ft_strdup(elem->save)))
+	if (!(*line = ft_strdup(elem->save)) || !(buff = ft_strnew(BUFF_SIZE)))
 		return (-1);
+	
+	printf("further test1 again\n");
+
 	while (ch)
 	{
-		ft_strclr((*elem)->save);
-		if ((*elem)->len = read(elem->fd, &buff, BUFF_SIZE) < 0 )
-			return (-1);
+		printf("further test2\n");
+
+		ft_strclr(elem->save);
+		if ((elem->len = read(elem->fd, &buff, BUFF_SIZE)) <= 0 )
+			return ((elem->len < 0) ? -1 : 0);		//not sure about this, will need to read the sujet again...
+
+		printf("further test3\n");
+
 		i = ft_findchar(buff, DELIM);
-		if (!(*line = ft_strjoin(*line, ft_strncpy(ft_strnew(i), buff, i))))
+		if (!(*line = ft_strjoin(*line, ft_strncpy(ft_strnew(i), buff, i))))		//needs some work
 			return (-1);
-		if (i < BUFF_SIZE || (*elem)->len < BUFF_SIZE)
+
+		printf("further test4 and i: %i\n", i);
+
+		if (i + 1 < BUFF_SIZE || elem->len < BUFF_SIZE)		// added the +1 might need some tweeking...
 		{
-			if (!((*elem)->save = ft_strncpy(ft_strnew(i), buff, i)))
+			if (!(elem->save = ft_strncpy(ft_strnew(i), buff, i)))
 				return (-1);
 			ch = 0;
 		}
 	}
+
+	printf("further test5\n");
+
 	ft_strdel(&buff);
 	return (1);			//or maybe 0....
 
@@ -92,35 +106,38 @@ int		get_next_line(const int fd, char **line)
 	t_gnllst			*new_elem;
 	t_gnllst			*tmp;
 	
-//	printf("inner test1\n");
+	printf("inner test1\n");
 	
 	tmp = lst;
 
-//	printf("inner test2\n");
+	printf("inner test2\n");
 
-	while (tmp && tmp->next)
+	while (tmp && tmp->next)		//necessary ????
 	{
 		if (tmp->fd == fd)
 			return (gnl(line, tmp));
 		tmp = tmp->next;
 	}
 
-//	printf("inner test3\n");
+	printf("inner test3\n");
 	
 	if (!(new_elem = (t_gnllst*)malloc(sizeof(t_gnllst))))
 		return (-1);
 
-//	printf("inner test4\n");
+	if (!(new_elem->save = ft_memalloc(1)))
+		return (-1);			// that's actually not bad
 
-	new_elem->fd = fd;
+	printf("inner test4\n");
+
+	new_elem->fd = fd;		// should i initialize elem->save .... to like \0 or something...
 	new_elem->next = NULL;
 
-//	printf("inner test5, elem->fd: %i\n", new_elem->fd);
+	printf("inner test5, elem->fd: %i\n", new_elem->fd);
 
 	if (!tmp)
 		tmp = new_elem;
 	else
-		lst->next = new_elem;
+		lst->next = new_elem;			// or tmp->next????
 
 	printf("inner test6\n");
 
