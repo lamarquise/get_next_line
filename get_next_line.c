@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:56:51 by erlazo            #+#    #+#             */
-/*   Updated: 2018/12/04 20:19:12 by erlazo           ###   ########.fr       */
+/*   Updated: 2018/12/14 16:18:51 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,26 @@
 #include "get_next_line.h"
 
 
+	// ok so we've made some progress... still work to be done tho, start coming in the morning...
+
+char	*cut(char *str)			// doesn't handle if there are multiple \n's need to get on that...
+{
+	char	*ret;
+	int		i;
+
+	i = 0;
+	if (!(ret = ft_strnew(BUFF_SIZE)))
+		return (NULL);
+	str += ft_findchar(str, DELIM) + 1;
+	while (*str)
+	{
+		ret[i++] = *str;
+		++str;
+	}
+	return (ret);
+}
+
+
 
 	// ok so this takes the fd reads the file, allocates to the right places, sets line & elem right, 
 	// and returns a failed or not value
@@ -25,44 +45,45 @@
 
 int		gnl( char **line, t_gnllst *elem)			// leaving it void for now
 {															// don't actually need to send fd, it's already there
-	char	*buff;		// why +1....
+	char	*buff;
 	int		i;
 	int		ch;
 
-
-	printf("further test1\n");
-	
 	ch = 1;
-	if (!(*line = ft_strdup(elem->save)) || !(buff = ft_strnew(BUFF_SIZE)))
+	if (!(*line = ft_strdup(elem->save)) || !(buff = ft_strnew(BUFF_SIZE)))			// does this mean i have to free line everytime ... ???
 		return (-1);
-	
-	printf("further test1 again\n");
-
 	while (ch)
 	{
-		printf("further test2\n");
+//		printf("further test2\n");
 
 		ft_strclr(elem->save);
-		if ((elem->len = read(elem->fd, &buff, BUFF_SIZE)) <= 0 )
-			return ((elem->len < 0) ? -1 : 0);		//not sure about this, will need to read the sujet again...
+		if ((elem->len = read(elem->fd, buff, BUFF_SIZE)) <= 0)
+			return ((elem->len < 0) ? -1 : 0);		// should say if failed or file ended
 
-		printf("further test3\n");
+//		printf("further test2\n");
+		printf("buff: %s\n", buff);
 
-		i = ft_findchar(buff, DELIM);
+		i = ft_findchar(buff, DELIM);					// OOOOHHHHHHHHH you don't handle the case where the Buff size is smaller than the len of the str you want to return...
+		if (i == -1)
+			i = BUFF_SIZE;		// + 1 ???			// ok so it sort of works... time to go home.
+//		printf("i: %i\n", i);
+
 		if (!(*line = ft_strjoin(*line, ft_strncpy(ft_strnew(i), buff, i))))		//needs some work
 			return (-1);
 
-		printf("further test4 and i: %i\n", i);
+//		printf("further test4 and i: %i\n", i);
 
-		if (i + 1 < BUFF_SIZE || elem->len < BUFF_SIZE)		// added the +1 might need some tweeking...
+		if (i < BUFF_SIZE || elem->len < BUFF_SIZE)		// added the +1 might need some tweeking...
 		{
-			if (!(elem->save = ft_strncpy(ft_strnew(i), buff, i)))
+			if (!(elem->save = cut(buff)))								//ft_strncpy(ft_strnew(i), buff, i)))
 				return (-1);
 			ch = 0;
+			printf("save: %s\n", elem->save);
 		}
+		ft_bzero(buff, BUFF_SIZE + 1);
 	}
 
-	printf("further test5\n");
+//	printf("further test5\n");
 
 	ft_strdel(&buff);
 	return (1);			//or maybe 0....
@@ -106,12 +127,7 @@ int		get_next_line(const int fd, char **line)
 	t_gnllst			*new_elem;
 	t_gnllst			*tmp;
 	
-	printf("inner test1\n");
-	
 	tmp = lst;
-
-	printf("inner test2\n");
-
 	while (tmp && tmp->next)		//necessary ????
 	{
 		if (tmp->fd == fd)
@@ -119,7 +135,7 @@ int		get_next_line(const int fd, char **line)
 		tmp = tmp->next;
 	}
 
-	printf("inner test3\n");
+//	printf("inner test3\n");
 	
 	if (!(new_elem = (t_gnllst*)malloc(sizeof(t_gnllst))))
 		return (-1);
@@ -127,19 +143,20 @@ int		get_next_line(const int fd, char **line)
 	if (!(new_elem->save = ft_memalloc(1)))
 		return (-1);			// that's actually not bad
 
-	printf("inner test4\n");
+//	printf("inner test4\n");
 
 	new_elem->fd = fd;		// should i initialize elem->save .... to like \0 or something...
 	new_elem->next = NULL;
+	new_elem->save = ft_strnew(BUFF_SIZE);
 
-	printf("inner test5, elem->fd: %i\n", new_elem->fd);
+//	printf("inner test5, elem->fd: %i\n", new_elem->fd);
 
 	if (!tmp)
 		tmp = new_elem;
 	else
 		lst->next = new_elem;			// or tmp->next????
 
-	printf("inner test6\n");
+//	printf("inner test6\n");
 
 	return (gnl(line, new_elem));
 
