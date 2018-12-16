@@ -13,7 +13,7 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUFF_SIZE 32		//right spot???
+# define BUFF_SIZE 3		//right spot???
 # define DELIM '\n'			//do i need the ' ' ???`
 
 # include "libft.h"

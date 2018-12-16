@@ -43,44 +43,48 @@ char	*cut(char *str)			// doesn't handle if there are multiple \n's need to get 
 	// and returns a failed or not value
 	//we have room to add more error conditions, which should come in handy...
 
-int		gnl( char **line, t_gnllst *elem)			// leaving it void for now
+int		gnl( char **line, t_gnllst **elem)			// leaving it void for now
 {															// don't actually need to send fd, it's already there
 	char	*buff;
 	int		i;
 	int		ch;
 
 	ch = 1;
-	if (!(*line = ft_strdup(elem->save)) || !(buff = ft_strnew(BUFF_SIZE)))			// does this mean i have to free line everytime ... ???
+	printf("save: %s\n", (*elem)->save);			// save is empty here for some reason.
+	if (!(*line = ft_strdup((*elem)->save)) || !(buff = ft_strnew(BUFF_SIZE)))			// does this mean i have to free line everytime ... ???
 		return (-1);
 	while (ch)
 	{
 //		printf("further test2\n");
 
-		ft_strclr(elem->save);
-		if ((elem->len = read(elem->fd, buff, BUFF_SIZE)) <= 0)
-			return ((elem->len < 0) ? -1 : 0);		// should say if failed or file ended
+		ft_strclr((*elem)->save);
+		if (((*elem)->len = read((*elem)->fd, buff, BUFF_SIZE)) <= 0)
+			return (((*elem)->len < 0) ? -1 : 0);		// should say if failed or file ended
 
 //		printf("further test2\n");
-		printf("buff: %s\n", buff);
+//		printf("buff: %s\n", buff);
 
 		i = ft_findchar(buff, DELIM);					// OOOOHHHHHHHHH you don't handle the case where the Buff size is smaller than the len of the str you want to return...
 		if (i == -1)
 			i = BUFF_SIZE;		// + 1 ???			// ok so it sort of works... time to go home.
 //		printf("i: %i\n", i);
 
+		printf("line pre join: %s\n", *line);
+
 		if (!(*line = ft_strjoin(*line, ft_strncpy(ft_strnew(i), buff, i))))		//needs some work
 			return (-1);
 
 //		printf("further test4 and i: %i\n", i);
 
-		if (i < BUFF_SIZE || elem->len < BUFF_SIZE)		// added the +1 might need some tweeking...
+		if (i < BUFF_SIZE || (*elem)->len < BUFF_SIZE)		// added the +1 might need some tweeking...
 		{
-			if (!(elem->save = cut(buff)))								//ft_strncpy(ft_strnew(i), buff, i)))
+			if (!((*elem)->save = cut(buff)))								//ft_strncpy(ft_strnew(i), buff, i)))
 				return (-1);
 			ch = 0;
-			printf("save: %s\n", elem->save);
+			printf("save: %s\n", (*elem)->save);
 		}
-		ft_bzero(buff, BUFF_SIZE + 1);
+//		printf("line: %s\n", *line);
+		ft_bzero(buff, BUFF_SIZE + 1);				// necessary ???
 	}
 
 //	printf("further test5\n");
@@ -131,7 +135,7 @@ int		get_next_line(const int fd, char **line)
 	while (tmp && tmp->next)		//necessary ????
 	{
 		if (tmp->fd == fd)
-			return (gnl(line, tmp));
+			return (gnl(line, &tmp));
 		tmp = tmp->next;
 	}
 
@@ -158,7 +162,7 @@ int		get_next_line(const int fd, char **line)
 
 //	printf("inner test6\n");
 
-	return (gnl(line, new_elem));
+	return (gnl(line, &new_elem));
 
 // free aroud here i guess or maybe in the othe func, like if get to \0 then you free the element of the node.
 // or have the return of the other func indicate that it has reached the end and then here free the node.
