@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 14:05:41 by erlazo            #+#    #+#             */
-/*   Updated: 2018/12/09 17:55:15 by erlazo           ###   ########.fr       */
+/*   Updated: 2018/12/16 18:55:05 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,5 @@ int				ft_isspace(char c);
 void			ft_strswap(char **s1, char **s2);
 void			ft_lstrev(t_list **lst);
 int				ft_findchar(char *str, char c);
-
 
 #endif
