@@ -30,7 +30,7 @@ int		main(int ac, char **av)
 			while (iter > 0)
 			{		
 //				printf("test3\n");
-				printf("Ret: %i\n", get_next_line(fd, &str));
+				printf("Ret: %i ", get_next_line(fd, &str));
 				printf("str: %s\n", str);
 				free(str);
 				--iter;
