@@ -12,11 +12,12 @@ int		main(int ac, char **av)
 	int		i;
 	int		fd;
 	char	*str;
-	int		iter;
+	int		ret;
 
 //	printf("test0\n");
-	i = 2;
-	if (ac >= 3)
+	ret = 1;
+	i = 1;
+	if (ac >= 2)
 	{
 //		printf("test1\n");
 		while (i < ac)
@@ -26,14 +27,12 @@ int		main(int ac, char **av)
 			
 //			printf("fd: %i\n", fd);
 
-			iter = atoi(av[1]);
-			while (iter > 0)
+			while (ret == 1 || ret == 2)
 			{		
 //				printf("test3\n");
-				printf("Ret: %i ", get_next_line(fd, &str));
-				printf("str: %s\n", str);
+				ret = get_next_line(fd, &str);
+				printf("ret: %i str: %s\n", ret, str);
 				free(str);
-				--iter;
 			}
 			++i;
 		}
