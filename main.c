@@ -34,6 +34,7 @@ int		main(int ac, char **av)
 				printf("ret: %i str: %s\n", ret, str);
 				free(str);
 			}
+			close(fd);
 			++i;
 		}
 	}
