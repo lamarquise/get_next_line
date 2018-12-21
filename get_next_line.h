@@ -6,14 +6,14 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:55:59 by erlazo            #+#    #+#             */
-/*   Updated: 2018/12/19 16:18:06 by erlazo           ###   ########.fr       */
+/*   Updated: 2018/12/21 18:16:42 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUFF_SIZE 32		//right spot???
+# define BUFF_SIZE 2		//right spot???
 # define DELIM '\n'			//do i need the ' ' ???`
 
 # include "libft.h"
