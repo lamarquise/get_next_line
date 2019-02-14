@@ -25,16 +25,16 @@ static char		*parse(char **save)
 	int		c;
 
 	c = 0;
-	if (!save || !*save)
-		return (NULL);
+//	if (!save || !*save)
+//		return (NULL);
 //	tmp = NULL;									// OOOORRRRRR \0 ......
-	while (ft_findchar(*save, DELIM) == 0 && ft_strlen(*save) >= 1)
+/*	while (ft_findchar(*save, DELIM) == 0 && ft_strlen(*save) >= 1)
 	{
 		if (!(tmp = ft_strsub(*save, 1, ft_strlen(*save))))
 			return (NULL);
 		*save = tmp;
 	}
-	i = ft_findchar(*save, DELIM);
+*/	i = ft_findchar(*save, DELIM);
 	if (i != -1)
 	{
 		if (!(ret = ft_strsub(*save, 0, i)))
@@ -52,7 +52,8 @@ static char		*parse(char **save)
 	{
 		if (!(ret = ft_strdup(*save)))
 			return (NULL);
-//		free(*save);
+		free(*save);
+		*save = ft_strnew(1);
 	}
 //	free(*save);
 //	*save = tmp;
@@ -89,21 +90,34 @@ static char		*parse(char **save)
 //	return (ret);
 }
 
-static int      gnl(t_gnllst *elem)
-{
+static int      gnl(t_gnllst *elem)			// almost have it working with buff = 1
+{										// some trouble with other buff sizes tho
 	char	buff[BUFF_SIZE + 1];
 	char    *tmp;
+	int		i;
 
-//	ft_bzero(buff, BUFF_SIZE + 1);
+	ft_bzero(buff, BUFF_SIZE + 1);
+	i = 0;
+	while (elem->save[i] && elem->save[i] == DELIM)
+	{
+		++i;
+		printf("removing n's\n");
+	}
+	if (!(tmp = ft_strsub(elem->save, i, ft_strlen(elem->save))))	// should do \0 if all \n's
+		return (-1);
+	free(elem->save);
+	elem->save = tmp;
+
+
 /*	while (ft_findchar(elem->save, DELIM) == 0 && ft_strlen(elem->save) >= 1)
 	{
 		if (!(tmp = ft_strsub(elem->save, 1, ft_strlen(elem->save))))
 			return (-1);
 		elem->save = tmp;
 	}
-*/	while (ft_findchar(elem->save, DELIM) == -1 && elem->len == BUFF_SIZE)
+*/	if (ft_findchar(elem->save, DELIM) == -1 && elem->len != 0)		//second conditon necessary???
 	{
-		printf("pre len: %i\n", elem->len);
+//		printf("test\n");
 		if ((elem->len = read(elem->fd, buff, BUFF_SIZE)) < 0)
 			return (-1);
 		if (elem->len > 0)
@@ -115,8 +129,12 @@ static int      gnl(t_gnllst *elem)
 			elem->save = tmp;
 		}
 	}
+	if (ft_findchar(elem->save, DELIM) <= 0 && elem->len == BUFF_SIZE)
+		return (gnl(elem));
+	if (elem->len == 0)
+		return (0);
 
-
+	printf("test end\n");
 
 //	if (elem->len == BUFF_SIZE)
 //		return (gnl(elem));
@@ -146,7 +164,8 @@ int				get_next_line(const int fd, char **line)			// add checks to free here... 
 		if (tmp->fd == fd)
 		{
 			
-			ret = gnl(tmp);
+//			while (ft_findchar(tmp->save, '\0') == 0 && tmp->len > 0)	
+				ret = gnl(tmp);
 			if (tmp->len == 0)
 				return (0);								// do i have to clear line if this happenes???
 			*line = parse(&tmp->save);
@@ -167,7 +186,11 @@ int				get_next_line(const int fd, char **line)			// add checks to free here... 
 	new_elem->len = BUFF_SIZE;						// just to be safe...
 	new_elem->next = lst;
 	lst = new_elem;
-	ret = gnl(new_elem);
+//	while (ft_findchar(new_elem->save, '\0') == 0 && new_elem->len > 0)
+//	{
+		printf("len: %i\n", new_elem->len);	
+		ret = gnl(new_elem);
+//	}
 	if (new_elem->len == 0)
 		return (0);
 	*line = parse(&new_elem->save);

@@ -27,7 +27,7 @@ int		main(int ac, char **av)
 			
 //			printf("fd: %i\n", fd);
 
-			while (ret == 1 || ret == 2)
+			while (ret == 1)
 			{		
 //				printf("test3\n");
 				ret = get_next_line(fd, &str);
