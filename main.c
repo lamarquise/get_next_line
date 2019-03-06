@@ -17,9 +17,10 @@ int		main(int ac, char **av)
 //	printf("test0\n");
 	ret = 1;
 	i = 1;
+	str = NULL;
 	if (ac >= 2)
 	{
-//		printf("test1\n");
+//		printf("pre test1\n");
 		while (i < ac)
 		{
 //			printf("test2\n");
@@ -27,11 +28,11 @@ int		main(int ac, char **av)
 			
 //			printf("fd: %i\n", fd);
 
-			while (ret == 1)
-			{		
-//				printf("test3\n");
-				ret = get_next_line(fd, &str);
-				printf("ret: %i str: %s\n", ret, str);
+			while ((ret = get_next_line(fd, &str)) == 1)
+			{
+		//		printf("pre test2\n");
+		//		printf("ret: %i %s\n", ret, str);
+				ft_putendl(str);
 				free(str);
 			}
 			close(fd);

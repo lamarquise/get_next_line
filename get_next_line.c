@@ -5,194 +5,185 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/22 14:56:51 by erlazo            #+#    #+#             */
-/*   Updated: 2018/12/21 18:16:32 by erlazo           ###   ########.fr       */
+/*   Created: 2019/02/17 11:00:08 by erlazo            #+#    #+#             */
+/*   Updated: 2019/02/17 12:24:00 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include <stdio.h>			// delete this line !!!!!!!!!!!!!!!
-
-
+#include <stdio.h>		// delete this line
 
 #include "get_next_line.h"
 
-static char		*parse(char **save)
+// ok so if ever find a \n ret everything before, if only \n then that means ret a null pointer i guess, copy all starting right after first \n
+
+
+// basically the only thing i care about is managing the \n, everything else should be pretty easy...
+// if i consistently cut and save everything after the first \n, then im sittin pretty...
+// it does seem a lot easier with a list...
+
+
+static int		gnl(char **line, char **save, int fd)	// make it recursive with condition save is there ???
 {
-	char	*ret;
+	char	buff[BUFF_SIZE + 1];
+	int		len;
 	char	*tmp;
-	int		i;
-	int		c;
 
-	c = 0;
-//	if (!save || !*save)
-//		return (NULL);
-//	tmp = NULL;									// OOOORRRRRR \0 ......
-/*	while (ft_findchar(*save, DELIM) == 0 && ft_strlen(*save) >= 1)
+	printf("test1\n");
+
+	len = ft_findchar(*save, DELIM);
+	
+//	printf("pos: %i ", len);
+//	printf("save: %s\n", *save);
+
+	if (len != -1)		//!= -1 meaning there is a \n somewhere...
 	{
-		if (!(tmp = ft_strsub(*save, 1, ft_strlen(*save))))
-			return (NULL);
-		*save = tmp;
-	}
-*/	i = ft_findchar(*save, DELIM);
-	if (i != -1)
-	{
-		if (!(ret = ft_strsub(*save, 0, i)))
-			return (NULL);
-		if (!(tmp = ft_strnew(ft_strlen(*save))))
-			return (NULL);
-		while ((*save)[i] == DELIM)
-			++i;
-		while ((*save)[i])									// could do a strsub instead but.... maybe later
-			tmp[c++] = (*save)[i++];
+//		printf("cut\n");
+
+		if (!(*line = ft_strsub(*save, 0, len)))
+			return (-1);
+		if (!(tmp = ft_strsub(*save, len + 1, ft_strlen(*save))))
+			return (-1);
 		free(*save);
 		*save = tmp;
+//		printf("line: %s\n", *line);
+//		printf("cut save: %s|\n", *save);
+		return (1);		// may be the best we're going to get
 	}
-	else
+	ft_bzero(buff, BUFF_SIZE + 1);
+	if ((len = read(fd, buff, BUFF_SIZE)) < 0)
+		return (-1);
+	
+//	printf("read stuff\n");
+	if (len > 0)	//something was read.
 	{
-		if (!(ret = ft_strdup(*save)))
-			return (NULL);
+//		printf("save: %s\n", *save);
+		if (!(tmp = ft_strjoin(*save, buff)))
+			return (-1);
+//		printf("test2\n");
 		free(*save);
-		*save = ft_strnew(1);
+		*save = tmp;
+//		printf("save: %s\n", *save);
 	}
-//	free(*save);
-//	*save = tmp;
-	return (ret);
+	else if (len == 0 && *save[0] != '\0')
+	{
+		len = 1;
+		if (!(tmp = ft_strjoin(*save, "\n")))
+			return (-1);
+//		free(*save);
+		*save = tmp;
+	}
 
+	if (len > 0) // something was read.
+		return (gnl(line, save, fd));
 
+	free(*save);		// i guess...
+	return (0); // i think....
 
 /*
-//	c = 0;
-	i = ft_findchar(*save, DELIM);
-	if (i != -1)
+	if (len == 0 && *save[0] != '\0')	//ok it's logical, glad i found this but it's still gross...
 	{
-		if (!(ret = ft_strsub(*save, 0, i)))
-			return (NULL);
-		while ((*save)[i] == DELIM)
-			++i;
+//		printf("in in\n");
+		len = 1;
+		if (!(tmp = ft_strjoin(*save, "\n")))
+			return (-1);
+		free(*save);		// do i need to define another way to get ret 0 ???
+		*save = tmp;
 	}
-	else											// dumbass, its the otherone if i == -1
-		i = 0;
-	if (!(tmp = ft_strnew(ft_strlen(*save))))			// here we change save to be just the end after \n's
-		return (NULL);
-//	while ((*save)[i] == DELIM)
-//		++i;
-	while ((*save)[i])
-		tmp[c++] = (*save)[i++];
-	free(*save);								// it really doen't like this free for some reason....
-	
-//	printf("tmp after cut: %s\n", tmp);
-	
-	*save = tmp;
-
-//	printf("save2: %s\n", *save);
+	else if (len == 0 && *save[0] == '\0')		//memdel ???
+	{
+//		free(save);		// this fucks everything up but not the source of strange seg faults
+		free(*line);		// this seems to have pretty much no effect... wait may actually be useful...
+	}
+	return ((len > 0) ? 2 : 0);		// there may be some cases im not thinking of...
 */
-//	return (ret);
 }
 
-static int      gnl(t_gnllst *elem)			// almost have it working with buff = 1
-{										// some trouble with other buff sizes tho
-	char	buff[BUFF_SIZE + 1];
-	char    *tmp;
-	int		i;
 
-	ft_bzero(buff, BUFF_SIZE + 1);
-	i = 0;
-	while (elem->save[i] && elem->save[i] == DELIM)
-	{
-		++i;
-		printf("removing n's\n");
-	}
-	if (!(tmp = ft_strsub(elem->save, i, ft_strlen(elem->save))))	// should do \0 if all \n's
+
+
+
+int		get_next_line(const int fd, char **line) // need basic checks prolly
+{
+	static char	*tab = NULL;
+//	static char	*tab[1000];				// it's static, should be fine when prog ends, no need for free...
+	int			ret;
+
+//	*line = ft_strnew(0);		// ok so this didn't fix as much as i would have liked...
+
+	if (fd < 0 || !line || BUFF_SIZE <= 0)
 		return (-1);
-	free(elem->save);
-	elem->save = tmp;
-
-
-/*	while (ft_findchar(elem->save, DELIM) == 0 && ft_strlen(elem->save) >= 1)
-	{
-		if (!(tmp = ft_strsub(elem->save, 1, ft_strlen(elem->save))))
-			return (-1);
-		elem->save = tmp;
-	}
-*/	if (ft_findchar(elem->save, DELIM) == -1 && elem->len != 0)		//second conditon necessary???
-	{
-//		printf("test\n");
-		if ((elem->len = read(elem->fd, buff, BUFF_SIZE)) < 0)
-			return (-1);
-		if (elem->len > 0)
-		{
-			if (!(tmp = ft_strjoin(elem->save, buff)))
-				return (-1);
-	//		ft_bzero(buff, BUFF_SIZE + 1);
-			free(elem->save);
-			elem->save = tmp;
-		}
-	}
-	if (ft_findchar(elem->save, DELIM) <= 0 && elem->len == BUFF_SIZE)
-		return (gnl(elem));
-	if (elem->len == 0)
-		return (0);
-
-	printf("test end\n");
-
-//	if (elem->len == BUFF_SIZE)
-//		return (gnl(elem));
-
+	if (!tab && !(tab = ft_strnew(0)))
+		return (-1);
+//	printf("test1\n");
 	
-	
-//	if (ft_findchar(elem->save, DELIM) > 0)
-//		*line = parse(elem);
-//	else if (!(*line = ft_strdup(elem->save)))
+//	ret = 2;
+
+
+//	if (!tab[fd])		// no dif with below version
+//		tab[fd] = ft_strnew(0);
+
+
+//	if (!tab[fd] && !(tab[fd] = ft_strnew(0)))	// strnew of 0 ... very interesting
 //		return (-1);
-	return (1);
+	
+	ret = gnl(line, &tab, fd);
+	
+//	if (ret == 0)
+//		free(tab[fd]);
+	return (ret);
+
+/*
+	while (ret > 1)		//ret = 2 until gets to a \n, which could be artificial...
+	{
+		ret = gnl(line, &tab[fd], fd);
+//		printf("tab: %s\n", tab[fd]);
+	}
+//	if (ret <= 0)			// that seems like it would work, especially given my main...
+//		free(tab[fd]);
+//	printf("end\n");
+	return (ret);
+*/
 }
 
-int				get_next_line(const int fd, char **line)			// add checks to free here... i guess, or maybe in other func...
+
+// Ok so this proved a point but it's not really all that useful...
+
+/*
+
+int		get_next_line(const int fd, char **line)
 {
 	static t_gnllst		*lst;
 	t_gnllst			*new_elem;
 	t_gnllst			*tmp;
 	int					ret;
-	
+
 	tmp = lst;
-	if (!(*line = ft_strnew(1)))
+	ret = 2;
+	if (!(*line = ft_strnew(0)))
 		return (-1);
-	while (tmp)														// if gnl func returns -1, should clear line, i think...
+	while (tmp)
 	{
-//		printf("list test\n");
 		if (tmp->fd == fd)
 		{
-			
-//			while (ft_findchar(tmp->save, '\0') == 0 && tmp->len > 0)	
-				ret = gnl(tmp);
-			if (tmp->len == 0)
-				return (0);								// do i have to clear line if this happenes???
-			*line = parse(&tmp->save);
-			
-//			printf("final test\n");
-
+			while (ret > 1)
+				ret = gnl(line, &tmp->save, fd);
 			return (ret);
 		}
 		tmp = tmp->next;
 	}
 	if (!(new_elem = (t_gnllst*)malloc(sizeof(t_gnllst))))
 		return (-1);
-	new_elem->fd = fd;
-	
-	printf("pre test1\n");
 
-	new_elem->save = ft_strnew(1);
-	new_elem->len = BUFF_SIZE;						// just to be safe...
+	printf("new elem\n");
+
+	new_elem->fd = fd;
+	new_elem->save = ft_strnew(0);
+	new_elem->len = 1;
 	new_elem->next = lst;
 	lst = new_elem;
-//	while (ft_findchar(new_elem->save, '\0') == 0 && new_elem->len > 0)
-//	{
-		printf("len: %i\n", new_elem->len);	
-		ret = gnl(new_elem);
-//	}
-	if (new_elem->len == 0)
-		return (0);
-	*line = parse(&new_elem->save);
+	
+	while (ret > 1)
+		ret = gnl(line, &new_elem->save, fd);
 	return (ret);
 }
+*/
