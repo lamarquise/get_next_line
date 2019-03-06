@@ -56,12 +56,12 @@ static int		gnl(char **line, char **save, int fd)
 		*save = tmp;
 //		printf("save: %s\n", *save);
 	}
-	else if (len == 0 && *save[0] != '\0')		// you need a more elegant solution...
+	else if (len == 0 && *save[0] != '\0')		// not the cause of doubling up problem but still needs help
 	{
 		len = 1;
 		if (!(tmp = ft_strjoin(*save, "\n")))
 			return (-1);
-//		free(*save);
+		free(*save);
 		*save = tmp;
 	}
 	if (len > 0) // something was read.
