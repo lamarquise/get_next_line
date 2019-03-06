@@ -6,11 +6,11 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 15:53:41 by erlazo            #+#    #+#             */
-/*   Updated: 2018/11/09 16:02:28 by erlazo           ###   ########.fr       */
+/*   Updated: 2019/03/06 17:00:28 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
 
 void	ft_bzero(void *s, size_t n)
 {

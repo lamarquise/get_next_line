@@ -3,41 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: agaspard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/12 17:13:52 by erlazo            #+#    #+#             */
-/*   Updated: 2018/12/16 19:53:54 by erlazo           ###   ########.fr       */
+/*   Created: 2016/11/16 10:41:23 by agaspard          #+#    #+#             */
+/*   Updated: 2019/03/06 16:58:11 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdlib.h>
 
-static int		l(char *str)
+/*
+ ** appends s2 to the end of s1, allocates memory and returns the new string
+*/
+
+int			ft_strlen(char *str)
 {
 	int		a;
 
 	a = 0;
 	while (str[a])
 		++a;
-	return ((a - 1) < 0 ? 0 : a - 1);
+	return (a);
 }
 
-char			*ft_strjoin(char const *s1, char const *s2)
+char		*ft_strjoin(char const *s1, char const *s2)
 {
-	int		a;
-	int		b;
-	char	*ret;
+	char	*dst;
+	char	*str1;
+	char	*str2;
+	size_t	len;
 
-	a = 0;
-	b = 0;
 	if (!s1 || !s2)
 		return (NULL);
-	if (!(ret = (char*)ft_memalloc(sizeof(char)
-		* l((char*)s1) + l((char*)s2) + 1)))
-		return (0);
-	if (!(ret = ft_strcpy(ret, s1)))
+	str1 = (char*)s1;
+	str2 = (char*)s2;
+	len = ft_strlen(str1) + ft_strlen(str2);
+	if ((dst = (char*)malloc(sizeof(char) * (len + 1))) == 0)
 		return (NULL);
-	if (!(ret = ft_strcat(ret, s2)))
-		return (NULL);
-	return (ret);
+	while (*str1)
+		*(dst++) = *(str1++);
+	while (*str2)
+		*(dst++) = *(str2++);
+	*dst = '\0';
+	return (dst - len);
 }

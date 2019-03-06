@@ -31,8 +31,8 @@ int		main(int ac, char **av)
 			while ((ret = get_next_line(fd, &str)) == 1)
 			{
 		//		printf("pre test2\n");
-		//		printf("ret: %i %s\n", ret, str);
-				ft_putendl(str);
+				printf("%s\n", str);
+//				ft_putendl(str);
 				free(str);
 			}
 			close(fd);

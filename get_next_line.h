@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:55:59 by erlazo            #+#    #+#             */
-/*   Updated: 2018/12/21 18:16:42 by erlazo           ###   ########.fr       */
+/*   Updated: 2019/03/06 17:12:13 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-typedef struct	s_gnllst
-{
-	char				*save;
-	int					len;
-	int					fd;
-	struct s_gnllst		*next;
-}				t_gnllst;
-
 int				get_next_line(const int fd, char **line);
-
-			// Prototypes for libft functions? or just the libft.h file in my return ???
 
 #endif
