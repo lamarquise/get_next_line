@@ -20,6 +20,15 @@
 # include <unistd.h>
 # include <stdlib.h>
 
+typedef struct	s_glst
+{
+	char			*s;
+	int				fd;
+//	long			l;
+	struct s_glst	*next;
+	struct s_glst	*prev;
+}				t_glst;
+
 int				get_next_line(const int fd, char **line);
 
 #endif
