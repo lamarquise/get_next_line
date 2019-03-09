@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:55:59 by erlazo            #+#    #+#             */
-/*   Updated: 2019/03/06 17:12:13 by erlazo           ###   ########.fr       */
+/*   Updated: 2019/03/09 18:57:25 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct	s_glst
 	int				fd;
 //	long			l;
 	struct s_glst	*next;
-	struct s_glst	*prev;
+	struct s_glst	*start;
 }				t_glst;
 
 int				get_next_line(const int fd, char **line);
