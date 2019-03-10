@@ -6,14 +6,14 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:55:59 by erlazo            #+#    #+#             */
-/*   Updated: 2019/03/09 18:57:25 by erlazo           ###   ########.fr       */
+/*   Updated: 2019/03/10 19:32:33 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUFF_SIZE 2		//right spot???
+# define BUFF_SIZE 1		//right spot???
 # define DELIM '\n'			//do i need the ' ' ???`
 
 # include "libft.h"
@@ -24,7 +24,6 @@ typedef struct	s_glst
 {
 	char			*s;
 	int				fd;
-//	long			l;
 	struct s_glst	*next;
 	struct s_glst	*start;
 }				t_glst;
