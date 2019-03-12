@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 11:00:08 by erlazo            #+#    #+#             */
-/*   Updated: 2019/03/11 19:28:02 by erlazo           ###   ########.fr       */
+/*   Updated: 2019/03/12 20:27:10 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,5 @@ int				get_next_line(const int fd, char **line)
 	new_elem->s = ft_strnew(1);
 	new_elem->next = lst;
 	lst = new_elem;
-	new_elem->start = lst;
 	return (gnl(line, &new_elem->s, &lst, new_elem));
 }
