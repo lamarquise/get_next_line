@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 11:00:08 by erlazo            #+#    #+#             */
-/*   Updated: 2019/03/12 20:27:10 by erlazo           ###   ########.fr       */
+/*   Updated: 2019/03/12 21:04:27 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,24 @@ static int		term(t_glst **lst, t_glst *elem)
 
 static int		gnl(char **l, char **s, t_glst **lst, t_glst *elem)
 {
-	int		i;
+	ssize_t	i;
 	char	*p;
 	char	b[BUFF_SIZE + 1];
 
 	p = NULL;
 	if ((i = ft_findchar(*s, DELIM)) != -1)
 	{
-		if (!(*l = ft_strsub(*s, 0, i++)) ||
-			(!(p = ft_strsub(*s, i, ft_strlen(*s) - i))))
+		if (!(*l = ft_strsub(*s, 0, (size_t)i++))
+			|| (!(p = ft_strsub(*s, i, ft_strlen(*s) - (size_t)i))))
 			return (-1);
 		free(*s);
 		*s = p;
 		return (1);
 	}
 	ft_bzero(b, BUFF_SIZE + 1);
-	if ((i = read(elem->fd, b, BUFF_SIZE)) < 0 ||
-		(i > 0 && !(p = ft_strjoin(*s, b))) ||
-		(*s[0] && ++i == 1 && !(p = ft_strjoin(*s, "\n"))))
+	if ((i = read(elem->fd, b, BUFF_SIZE)) < 0
+		|| (i > 0 && !(p = ft_strjoin(*s, b)))
+		|| (*s[0] && ++i == 1 && !(p = ft_strjoin(*s, "\n"))))
 		return (-1);
 	free(*s);
 	*s = p;
