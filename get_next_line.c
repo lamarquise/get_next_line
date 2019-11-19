@@ -26,8 +26,8 @@ static int		term(t_glst **lst, t_glst *elem)
 	{
 		while (tmp->next->fd != elem->fd)
 			tmp = tmp->next;
-		tmp->next = tmp->next->next;
-		free(elem);
+		tmp->next = tmp->next->next;	// bridging the gap
+		free(elem);						// or tmp i think???
 	}
 	return (0);
 }
