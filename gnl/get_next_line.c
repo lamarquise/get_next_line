@@ -6,9 +6,14 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 11:00:08 by erlazo            #+#    #+#             */
-/*   Updated: 2019/03/12 21:04:27 by erlazo           ###   ########.fr       */
+/*   Updated: 2019/11/22 17:28:29 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
+
+		// OK so this is the bonus, but now i need to addapt it to be not bonus which means possibly changing the algorythm...
+
 
 #include "get_next_line.h"
 
@@ -52,10 +57,10 @@ static int		gnl(char **l, char **s, t_glst **lst, t_glst *elem)
 {
 	ssize_t	i;
 	char	*p;
-	char	b[BUFF_SIZE + 1];
+	char	b[BUFFER_SIZE + 1];
 
 	p = NULL;
-	if ((i = ft_findchar(*s, DELIM)) != -1)				// also here
+	if ((i = ft_findchar(*s, '\n')) != -1)				// also here
 	{
 		if (!(*l = ft_strsub(*s, 0, (size_t)i++))		// new func here
 			|| (!(p = ft_strsub(*s, i, ft_strlen(*s) - (size_t)i)))) // here
@@ -64,24 +69,24 @@ static int		gnl(char **l, char **s, t_glst **lst, t_glst *elem)
 		*s = p;
 		return (1);
 	}
-	ft_bzero(b, BUFF_SIZE + 1);			// this needs to be fixed
-	if ((i = read(elem->fd, b, BUFF_SIZE)) < 0
+	ft_bzero(b, BUFFER_SIZE + 1);			// this needs to be fixed
+	if ((i = read(elem->fd, b, BUFFER_SIZE)) < 0
 		|| (i > 0 && !(p = ft_strjoin(*s, b)))			// here
 		|| (*s[0] && ++i == 1 && !(p = ft_strjoin(*s, "\n"))))
 		return (-1);
 	free(*s);
 	*s = p;
-	return ((i > 0) ? gnl(l, s, lst, elem) : term(lst, elem));		// no ternaires???
+	return ((i > 0) ? gnl(l, s, lst, elem) : term(lst, elem));
 }
 
-int				get_next_line(const int fd, char **line)
+int				get_next_line(int fd, char **line)
 {
 	static t_glst	*lst = NULL;
 	t_glst			*new_elem;
 	t_glst			*tmp;
 
 	tmp = lst;
-	if (fd < 0 || !line || BUFF_SIZE < 1)
+	if (fd < 0 || !line || BUFFER_SIZE < 1)
 		return (-1);
 	while (tmp)
 	{
