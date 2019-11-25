@@ -6,11 +6,11 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 15:21:51 by erlazo            #+#    #+#             */
-/*   Updated: 2019/11/25 16:40:51 by erlazo           ###   ########.fr       */
+/*   Updated: 2019/11/25 15:23:07 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 #include <fcntl.h>
 
 void	ft_putendl(char const *s)

@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 11:00:08 by erlazo            #+#    #+#             */
-/*   Updated: 2019/11/22 17:28:29 by erlazo           ###   ########.fr       */
+/*   Updated: 2019/11/25 15:21:33 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 		// OK so this is the bonus, but now i need to addapt it to be not bonus which means possibly changing the algorythm...
 
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char			*ft_strnew(size_t size)		// somehow combine bzero and strnew ???
 {
@@ -60,18 +60,18 @@ static int		gnl(char **l, char **s, t_glst **lst, t_glst *elem)
 	char	b[BUFFER_SIZE + 1];
 
 	p = NULL;
-	if ((i = ft_findchar(*s, '\n')) != -1)				// also here
+	if ((i = ft_findchar(*s, '\n')) != -1)
 	{
-		if (!(*l = ft_strsub(*s, 0, (size_t)i++))		// new func here
-			|| (!(p = ft_strsub(*s, i, ft_strlen(*s) - (size_t)i)))) // here
+		if (!(*l = ft_strsub(*s, 0, (size_t)i++))
+			|| (!(p = ft_strsub(*s, i, ft_strlen(*s) - (size_t)i))))
 			return (-1);
 		free(*s);
 		*s = p;
 		return (1);
 	}
-	ft_bzero(b, BUFFER_SIZE + 1);			// this needs to be fixed
+	ft_bzero(b, BUFFER_SIZE + 1);
 	if ((i = read(elem->fd, b, BUFFER_SIZE)) < 0
-		|| (i > 0 && !(p = ft_strjoin(*s, b)))			// here
+		|| (i > 0 && !(p = ft_strjoin(*s, b)))
 		|| (*s[0] && ++i == 1 && !(p = ft_strjoin(*s, "\n"))))
 		return (-1);
 	free(*s);
