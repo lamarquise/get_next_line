@@ -6,15 +6,12 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:55:59 by erlazo            #+#    #+#             */
-/*   Updated: 2019/11/25 15:21:38 by erlazo           ###   ########.fr       */
+/*   Updated: 2019/11/26 17:14:04 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-
-//# define BUFF_SIZE 1
-//# define DELIM '\n'
 
 # include <unistd.h>
 # include <stdlib.h>

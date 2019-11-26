@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 15:21:51 by erlazo            #+#    #+#             */
-/*   Updated: 2019/11/25 16:40:51 by erlazo           ###   ########.fr       */
+/*   Updated: 2019/11/26 17:31:28 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,21 @@ void	ft_putendl(char const *s)
 	}
 	write(1, "\n", 1);
 }
+
+void	ft_putstr(char *s)
+{
+	int		a;
+
+	a = 0;
+	if (!s)
+		return ;
+	while (s[a])
+	{
+		write(1, &s[a], 1);
+		++a;
+	}
+}
+
 
 int		main(int ac, char **av)
 {
@@ -54,6 +69,7 @@ int		main(int ac, char **av)
 			fd = open(av[i], O_RDONLY);
 			while ((ret = get_next_line(fd, &str)) == 1)
 			{
+				ft_putstr(str);
 				ft_putendl(str);
 				free(str);
 			}
@@ -73,6 +89,7 @@ int		main(int ac, char **av)
 		{
 			if (tab[i - 1] != -1 && (ret = get_next_line(tab[i - 1], &str)) == 1)
 			{
+		//		ft_putstr(str);
 				ft_putendl(str);
 				free(str);
 			}

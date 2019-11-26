@@ -6,18 +6,13 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 11:00:08 by erlazo            #+#    #+#             */
-/*   Updated: 2019/11/25 15:21:33 by erlazo           ###   ########.fr       */
+/*   Updated: 2019/11/26 17:20:24 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
-		// OK so this is the bonus, but now i need to addapt it to be not bonus which means possibly changing the algorythm...
-
-
 #include "get_next_line_bonus.h"
 
-char			*ft_strnew(size_t size)		// somehow combine bzero and strnew ???
+static char		*ft_strnew(size_t size)		// somehow combine bzero and strnew ???
 {
 	size_t	a;
 	char	*ret;

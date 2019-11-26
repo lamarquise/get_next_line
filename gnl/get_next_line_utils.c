@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 15:21:58 by erlazo            #+#    #+#             */
-/*   Updated: 2019/11/25 16:40:45 by erlazo           ###   ########.fr       */
+/*   Updated: 2019/11/26 17:22:23 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ size_t	ft_strlen(const char *s)
 	size_t	a;
 
 	a = 0;
+
+//	printf("len test 1\n");
+
 	while (s && s[a])
 		++a;
 	return (a);
