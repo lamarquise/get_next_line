@@ -58,7 +58,7 @@ static int		gnl(char **l, char **s, t_glst **lst, t_glst *elem)
 	ssize_t	i;
 	char	*p;
 	char	b[BUFFER_SIZE + 1];
-
+	
 	p = NULL;
 	if ((i = ft_findchar(*s, '\n')) != -1)
 	{
