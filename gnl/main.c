@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 15:21:51 by erlazo            #+#    #+#             */
-/*   Updated: 2019/11/26 17:31:28 by erlazo           ###   ########.fr       */
+/*   Updated: 2019/11/27 18:12:58 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,30 +54,33 @@ int		main(int ac, char **av)
 	ret = 1;
 	i = 1;
 	str = NULL;
-	if (ac == 1)
+	if (ac == 1)		// Standard Output
 	{
 		while ((ret = get_next_line(0, &str)) == 1)
 		{
 			ft_putendl(str);
 			free(str);
 		}
+		free(str);
 	}
-	if (ac == 2)
+	if (ac == 2)		// 1 file
 	{
 		while (i < ac)
 		{
 			fd = open(av[i], O_RDONLY);
 			while ((ret = get_next_line(fd, &str)) == 1)
 			{
-				ft_putstr(str);
+		//		ft_putstr(str);
 				ft_putendl(str);
 				free(str);
 			}
+		//	ft_putendl(str);
+	//		free(str);
 			close(fd);
 			++i;
 		}
 	}
-	if (ac > 2)					// ok so it's not perfect but it proves the point that the multi fd works all at the same time.
+	if (ac > 2)			// Multiples files
 	{
 		while (i < ac)
 		{
