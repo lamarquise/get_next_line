@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 15:21:58 by erlazo            #+#    #+#             */
-/*   Updated: 2019/11/27 18:18:16 by erlazo           ###   ########.fr       */
+/*   Updated: 2019/12/03 21:00:57 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,30 +41,25 @@ int		ft_findchar(char *str, char c)
 	return (-1);
 }
 
-char	*ft_strsub(char *s, unsigned int start, size_t len)
+char	*ft_strsub(char *s, unsigned int start, size_t len)		// could use better substr from new lib...
 {
 	unsigned int	a;
 	char			*ret;
 
 	a = 0;
-//	printf("test sub1\n");		// does my len - start not work cuz unsigned ???
-	if (!s || !(ret = (char*)malloc(sizeof(char) * (len + 1))))
-	{
-//		free (s);				// ok so this didn't fix my leaks problem, s, *s, no dif...
+	if (!(ret = (char*)malloc(sizeof(char) * (len + 1))))
 		return (NULL);
-	}
-//	printf("test sub12\n");
 	while (a < len)
 	{
 		ret[a] = s[start + a];
 		++a;
 	}
-//	printf("test sub3\n");
 	ret[a] = '\0';
+	printf("ret dans sub: |%s|\n", ret);
 	return (ret);
 }
 
-void	ft_bzero(void *s, size_t n)		// could be better ????
+int		ft_bzero(void *s, size_t n)		// could be better ????
 {
 	unsigned int	a;
 	unsigned char	*str;
@@ -76,33 +71,40 @@ void	ft_bzero(void *s, size_t n)		// could be better ????
 		str[a] = '\0';
 		++a;
 	}
+	return (1);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+int		ft_strjoin(char **s1, char *s2)
 {
 	int		a;
 	char	*ret;
+	int		c;
 
+//	printf("s1: %s, s2: %s\n", *s1, s2);
 	if (!s1 && !s2)			// was ||
-		return (NULL);
-	a = ft_strlen(s1) + ft_strlen(s2) + 1;
-
-//	printf("mal len: %d\n", a);
-
+		return (0);
+	a = ft_strlen(*s1) + ft_strlen(s2) + 1;
 	if (!(ret = (char*)malloc(sizeof(char) * a)))
 		return (0);
-	ft_bzero(ret, a);
+	ft_bzero(ret, a);			// changed form a to a -1
 	a = 0;
-	while (s1 && *s1)
+	c = 0;
+	while (*s1 && (*s1)[c])
 	{
-		ret[a++] = *s1;
-		++s1;
+		ret[a++] = (*s1)[c];
+		++c;
 	}
+	printf("ret: |%s|\n", ret);
 	while (s2 && *s2)
 	{
 		ret[a++] = *s2;
 		++s2;
 	}
-//	printf("ret: %s\n", ret);
-	return (ret);
+	ret[a] = '\0';
+	ft_bzero(*s1, ft_strlen(*s1));
+//	if (*s1 && **s1)
+		free(*s1);
+	*s1 = ret;
+//	printf("s1: %s\n", *s1);
+	return (1);
 }
