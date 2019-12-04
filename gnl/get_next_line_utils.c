@@ -17,9 +17,6 @@ size_t	ft_strlen(const char *s)
 	size_t	a;
 
 	a = 0;
-
-//	printf("len test 1\n");
-
 	while (s && s[a])
 		++a;
 	return (a);
@@ -41,6 +38,10 @@ int		ft_findchar(char *str, char c)
 	return (-1);
 }
 
+	// ok heres an idea, add a second string var to sub, if it's null then
+	// return a malloced string
+	// if it has something, then fill it with s but no malloc
+
 char	*ft_strsub(char *s, unsigned int start, size_t len)		// could use better substr from new lib...
 {
 	unsigned int	a;
@@ -55,7 +56,7 @@ char	*ft_strsub(char *s, unsigned int start, size_t len)		// could use better su
 		++a;
 	}
 	ret[a] = '\0';
-	printf("ret dans sub: |%s|\n", ret);
+//	printf("ret dans sub: |%s|\n", ret);
 	return (ret);
 }
 
@@ -80,7 +81,6 @@ int		ft_strjoin(char **s1, char *s2)
 	char	*ret;
 	int		c;
 
-//	printf("s1: %s, s2: %s\n", *s1, s2);
 	if (!s1 && !s2)			// was ||
 		return (0);
 	a = ft_strlen(*s1) + ft_strlen(s2) + 1;
@@ -94,17 +94,15 @@ int		ft_strjoin(char **s1, char *s2)
 		ret[a++] = (*s1)[c];
 		++c;
 	}
-	printf("ret: |%s|\n", ret);
 	while (s2 && *s2)
 	{
 		ret[a++] = *s2;
 		++s2;
 	}
 	ret[a] = '\0';
-	ft_bzero(*s1, ft_strlen(*s1));
+//	ft_bzero(*s1, ft_strlen(*s1));		// not necessary i think
 //	if (*s1 && **s1)
-		free(*s1);
+	free(*s1);
 	*s1 = ret;
-//	printf("s1: %s\n", *s1);
 	return (1);
 }

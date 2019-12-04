@@ -71,11 +71,16 @@ int		main(int ac, char **av)
 			while ((ret = get_next_line(fd, &str)) == 1)
 			{
 		//		ft_putstr(str);
-				ft_putendl(str);
+				printf("|%d|%s~\n", ret, str);
+	//			ft_putendl(str);
 				free(str);
 			}
-		//	ft_putendl(str);
-	//		free(str);
+			printf("|%d|%s~\n", ret, str);
+	//		ft_putendl(str);
+			free(str);
+			ret = get_next_line(fd, &str);
+			printf("== After EOF gnl called again ==\n|%d|%s~\n", ret, str);
+			free(str);
 			close(fd);
 			++i;
 		}
