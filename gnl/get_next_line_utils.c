@@ -6,13 +6,13 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 15:21:58 by erlazo            #+#    #+#             */
-/*   Updated: 2019/12/04 20:26:52 by erlazo           ###   ########.fr       */
+/*   Updated: 2019/12/04 21:42:19 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)		// does this need to be a static func
 {
 	size_t	a;
 
