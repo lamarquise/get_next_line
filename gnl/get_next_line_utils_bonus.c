@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/25 15:21:15 by erlazo            #+#    #+#             */
-/*   Updated: 2019/11/27 17:05:53 by erlazo           ###   ########.fr       */
+/*   Created: 2019/11/25 15:21:58 by erlazo            #+#    #+#             */
+/*   Updated: 2019/12/04 21:26:43 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *s)
 	size_t	a;
 
 	a = 0;
-	while (s[a])
+	while (s && s[a])
 		++a;
 	return (a);
 }
@@ -26,6 +26,8 @@ int		ft_findchar(char *str, char c)
 {
 	int		i;
 
+	if (!str)
+		return (-1);
 	i = 0;
 	while (str[i])
 	{
@@ -36,58 +38,67 @@ int		ft_findchar(char *str, char c)
 	return (-1);
 }
 
-char	*ft_strsub(char const *s, unsigned int start, size_t len)
+char	*ft_strsub(char *s, unsigned int start, size_t len)
 {
 	unsigned int	a;
 	char			*ret;
 
 	a = 0;
-	if (!s || !(ret = (char*)malloc(sizeof(char) * (len + 1))))
-		return (0);
+	if (!(ret = (char*)malloc(sizeof(char) * (len + 1))))
+		return (NULL);
 	while (a < len)
 	{
-		ret[a] = (char)s[start + a];
+		ret[a] = s[start + a];
 		++a;
 	}
 	ret[a] = '\0';
 	return (ret);
 }
 
-void	ft_bzero(void *s, size_t n)		// could be better ????
+int		ft_bzero(void *s, size_t n)
 {
 	unsigned int	a;
 	unsigned char	*str;
 
 	a = 0;
-	str = s;		// necessary??? I think so, for it to be casted ?
+	str = s;
 	while (a < n)
 	{
 		str[a] = '\0';
 		++a;
 	}
+	return (1);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char **s1, char *s2)
 {
 	int		a;
 	char	*ret;
+	int		c;
 
-	if (!s1 || !s2)
-		return (NULL);		// why is it null again ???
-	a = ft_strlen(s1) + ft_strlen(s2) + 1;
+	if (!s1 && !s2)
+		return (NULL);
+	a = ft_strlen(*s1) + ft_strlen(s2) + 1;
 	if (!(ret = (char*)malloc(sizeof(char) * a)))
-		return (0);
+		return (NULL);
 	ft_bzero(ret, a);
 	a = 0;
-	while (*s1)
+	c = 0;
+	while (*s1 && (*s1)[c])
 	{
-		ret[a++] = *s1;
-		++s1;
+		ret[a++] = (*s1)[c];
+		++c;
 	}
-	while (*s2)
+	while (s2 && *s2)
 	{
 		ret[a++] = *s2;
 		++s2;
 	}
+	ret[a] = '\0';
+	if (*s1 && **s1)			// not convinced this is safe enough ....
+//	{
+//		ft_bzero(*s1, ft_strlen(*s1));
+		free(*s1);
+//	}
 	return (ret);
 }

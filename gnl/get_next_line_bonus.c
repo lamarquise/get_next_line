@@ -1,32 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 11:00:08 by erlazo            #+#    #+#             */
-/*   Updated: 2019/11/27 18:18:19 by erlazo           ###   ########.fr       */
+/*   Updated: 2019/12/04 21:26:23 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-
-static char		*ft_strnew(size_t size)		// somehow combine bzero and strnew ???
-{
-	size_t	a;
-	char	*ret;
-
-	a = 0;
-	if (!(ret = (char*)malloc(sizeof(char) * (size + 1))))
-		return (0);
-	while (a <= size)
-	{
-		ret[a] = '\0';
-		++a;
-	}
-	return (ret);
-}
 
 static int		term(t_glst **lst, t_glst *elem)
 {
@@ -36,14 +20,16 @@ static int		term(t_glst **lst, t_glst *elem)
 	if (tmp->fd == elem->fd)
 	{
 		*lst = tmp->next;
+		free(tmp->s);
 		free(tmp);
 	}
 	else
 	{
 		while (tmp->next->fd != elem->fd)
 			tmp = tmp->next;
-		tmp->next = tmp->next->next;	// bridging the gap
-		free(elem);						// or tmp i think???
+		tmp->next = tmp->next->next;
+		free(elem->s);
+		free(elem);
 	}
 	return (0);
 }
@@ -53,7 +39,7 @@ static int		gnl(char **l, char **s, t_glst **lst, t_glst *elem)
 	ssize_t	i;
 	char	*p;
 	char	b[BUFFER_SIZE + 1];
-	
+
 	p = NULL;
 	if ((i = ft_findchar(*s, '\n')) != -1)
 	{
@@ -64,13 +50,14 @@ static int		gnl(char **l, char **s, t_glst **lst, t_glst *elem)
 		*s = p;
 		return (1);
 	}
-	ft_bzero(b, BUFFER_SIZE + 1);
-	if ((i = read(elem->fd, b, BUFFER_SIZE)) < 0
-		|| (i > 0 && !(p = ft_strjoin(*s, b)))
-		|| (*s[0] && ++i == 1 && !(p = ft_strjoin(*s, "\n"))))
+	if (!l || !ft_bzero(b, BUFFER_SIZE + 1)
+		|| (i = read(elem->fd, b, BUFFER_SIZE)) < -1
+		|| (i > 0 && !(p = ft_strjoin(s, b)))
+		|| (*s && *s[0] && ++i == 1 && !(*l = ft_strjoin(s, "")))
+		|| (i < 1 && !(*l) && !(*l = ft_strsub(NULL, 0, 0))) || i < 0)
 		return (-1);
-	free(*s);
-	*s = p;
+	if (i > 0)
+		*s = p;
 	return ((i > 0) ? gnl(l, s, lst, elem) : term(lst, elem));
 }
 
@@ -81,8 +68,8 @@ int				get_next_line(int fd, char **line)
 	t_glst			*tmp;
 
 	tmp = lst;
-	if (fd < 0 || !line || BUFFER_SIZE < 1)
-		return (-1);
+	if (line)
+		*line = NULL;
 	while (tmp)
 	{
 		if (tmp->fd == fd)
@@ -90,9 +77,12 @@ int				get_next_line(int fd, char **line)
 		tmp = tmp->next;
 	}
 	if (!(new_elem = (t_glst*)malloc(sizeof(t_glst))))
+	{
+		*line = ft_strsub(NULL, 0, 0);
 		return (-1);
+	}
 	new_elem->fd = fd;
-	new_elem->s = ft_strnew(1);
+	new_elem->s = NULL;
 	new_elem->next = lst;
 	lst = new_elem;
 	return (gnl(line, &new_elem->s, &lst, new_elem));

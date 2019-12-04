@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 15:21:51 by erlazo            #+#    #+#             */
-/*   Updated: 2019/11/27 18:12:58 by erlazo           ###   ########.fr       */
+/*   Updated: 2019/12/04 17:24:59 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,21 @@ int		main(int ac, char **av)
 	str = NULL;
 	if (ac == 1)		// Standard Output
 	{
-		while ((ret = get_next_line(0, &str)) == 1)
+
+		ret = get_next_line(-4, &str);
+	
+		printf("ret %d\n", ret);	
+
+		ft_putendl(str);
+		free(str);
+
+/*		while ((ret = get_next_line(0, &str)) == 1)
 		{
 			ft_putendl(str);
 			free(str);
 		}
 		free(str);
-	}
+*/	}
 	if (ac == 2)		// 1 file
 	{
 		while (i < ac)
@@ -70,13 +78,10 @@ int		main(int ac, char **av)
 			fd = open(av[i], O_RDONLY);
 			while ((ret = get_next_line(fd, &str)) == 1)
 			{
-		//		ft_putstr(str);
 				printf("|%d|%s~\n", ret, str);
-	//			ft_putendl(str);
 				free(str);
 			}
 			printf("|%d|%s~\n", ret, str);
-	//		ft_putendl(str);
 			free(str);
 			ret = get_next_line(fd, &str);
 			printf("== After EOF gnl called again ==\n|%d|%s~\n", ret, str);

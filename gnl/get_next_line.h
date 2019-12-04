@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:55:59 by erlazo            #+#    #+#             */
-/*   Updated: 2019/12/02 18:31:09 by erlazo           ###   ########.fr       */
+/*   Updated: 2019/12/04 20:42:57 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ size_t			ft_strlen(const char *s);
 int				ft_findchar(char *str, char c);
 char			*ft_strsub(char *s, unsigned int start, size_t len);
 int				ft_bzero(void *s, size_t n);
-int				ft_strjoin(char **s1, char *s2);
+char			*ft_strjoin(char **s1, char *s2);
 
 #endif
