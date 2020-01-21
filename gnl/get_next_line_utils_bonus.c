@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 15:21:58 by erlazo            #+#    #+#             */
-/*   Updated: 2019/12/04 21:26:43 by erlazo           ###   ########.fr       */
+/*   Updated: 2020/01/21 17:42:40 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*ft_strjoin(char **s1, char *s2)
 	char	*ret;
 	int		c;
 
-	if (!s1 && !s2)
+	if (!s1 && !s2)			// something else too ??? !*s1 ???
 		return (NULL);
 	a = ft_strlen(*s1) + ft_strlen(s2) + 1;
 	if (!(ret = (char*)malloc(sizeof(char) * a)))
