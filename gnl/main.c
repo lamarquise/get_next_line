@@ -6,12 +6,13 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 15:21:51 by erlazo            #+#    #+#             */
-/*   Updated: 2020/01/21 17:47:02 by erlazo           ###   ########.fr       */
+/*   Updated: 2020/01/31 17:42:37 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <fcntl.h>
+#include <stdio.h>
 
 void	ft_putendl(char const *s)
 {
@@ -75,9 +76,12 @@ int		main(int ac, char **av)
 	{
 		while (i < ac)
 		{
+//			printf("test 1\n");
 			fd = open(av[i], O_RDONLY);
+//			printf("test 2\n");
 			while ((ret = get_next_line(fd, &str)) == 1)
 			{
+//				printf("test 3\n");
 				printf("|%d|%s~\n", ret, str);
 				free(str);
 			}
@@ -89,6 +93,7 @@ int		main(int ac, char **av)
 			close(fd);
 			++i;
 		}
+//		printf("test final\n");
 	}
 	if (ac > 2)			// Multiples files
 	{

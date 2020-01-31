@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 11:00:08 by erlazo            #+#    #+#             */
-/*   Updated: 2020/01/21 17:39:13 by erlazo           ###   ########.fr       */
+/*   Updated: 2020/01/31 17:58:41 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int		gnl(int fd, char **line)
 	ssize_t			i;
 	char			*p;
 	char			b[BUFFER_SIZE + 1];
-	
+
 	p = NULL;
 	if ((i = ft_findchar(s, '\n')) != -1)
 	{
@@ -31,9 +31,8 @@ static int		gnl(int fd, char **line)
 	}
 	if (!line || !ft_bzero(b, BUFFER_SIZE + 1)
 		|| (i = read(fd, b, BUFFER_SIZE)) < -1
-//		|| (i <= 0 && !(*line = ft_strsub(s, 0, ft_strlen(s))))		// could work but wouldnt free s...
 		|| (i > 0 && !(p = ft_strjoin(&s, b)))
-		|| (s && s[0] && ++i == 1 && !(*line = ft_strjoin(&s, "")))		// ++i super important 
+		|| (s && s[0] && ++i == 1 && !(*line = ft_strjoin(&s, "")))
 		|| (i < 1 && !(*line) && !(*line = ft_strsub(NULL, 0, 0))) || i < 0)
 		return (-1);
 	if (i > 0)

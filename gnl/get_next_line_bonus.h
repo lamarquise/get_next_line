@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:55:59 by erlazo            #+#    #+#             */
-/*   Updated: 2020/01/21 17:43:01 by erlazo           ###   ########.fr       */
+/*   Updated: 2020/01/30 17:36:41 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-
-#include <stdio.h>
 
 typedef struct	s_glst
 {
