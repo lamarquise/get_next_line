@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 15:21:58 by erlazo            #+#    #+#             */
-/*   Updated: 2020/02/03 18:18:37 by erlazo           ###   ########.fr       */
+/*   Updated: 2020/02/07 17:26:22 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,34 @@
 #include <stdio.h>		// REMOVE !!!!!!!
 
 #include "get_next_line.h"
+
+
+			// what do i remove to make room for this ????
+			// modify the join ???? perhaps....
+
+void	*ft_memmove(void *dst, const void *src, size_t len)
+{
+	size_t	a;
+
+	if ((!dst && !src) || dst == src)
+		return (dst);		// was NULL
+	if ((int)dst - (int)src < 0)
+	{
+		a = -1;
+		while (++a < len)
+			((unsigned char*)dst)[a] = ((unsigned char*)src)[a];
+	}
+	else
+	{
+		a = len;
+		while (a-- > 0)
+			((unsigned char*)dst)[a] = ((unsigned char*)src)[a];
+	}
+	return (dst);
+}
+
+
+
 
 size_t	ft_strlen(const char *s)
 {

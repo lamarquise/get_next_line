@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 11:00:08 by erlazo            #+#    #+#             */
-/*   Updated: 2020/02/03 18:18:34 by erlazo           ###   ########.fr       */
+/*   Updated: 2020/02/07 18:15:54 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@ static int		gnl(int fd, char **line)
 	static char		*s;		// could this be the free problem...
 	ssize_t			i;
 	char			*p;
-//	char			b[BUFFER_SIZE + 1];		// or maybe its this, the buffer never gets freed cuz its fixed and contained in the funtion
+	char			b[BUFFER_SIZE + 1];		// or maybe its this, the buffer never gets freed cuz its fixed and contained in the funtion
 
 
 
-	char			*b;
+/*	char			*b;
 
 	b = NULL;
 	if (!(b = (char*)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
 		return (-1);
 	ft_bzero(b, BUFFER_SIZE + 1);
 
-
+*/
 
 
 //	printf("test 1\n");
@@ -52,7 +52,7 @@ static int		gnl(int fd, char **line)
 		|| (i < 1 && !(*line) && !(*line = ft_strsub(NULL, 0, 0))) || i < 0		// )
 			)
 	{
-		free(b);
+//		free(b);
 		return (-1);
 	}
 	if (i > 0)
@@ -60,8 +60,10 @@ static int		gnl(int fd, char **line)
 //		if (p[0] == '\0')		// more conditions ????
 //			return (0);
 		s = p;
+		free(p);
 	}
-	free(b);
+//	free(p);
+//	free(b);
 	return ((i > 0) ? gnl(fd, line) : 0);
 }
 
