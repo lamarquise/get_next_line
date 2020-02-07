@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 11:00:08 by erlazo            #+#    #+#             */
-/*   Updated: 2020/02/07 18:37:13 by erlazo           ###   ########.fr       */
+/*   Updated: 2020/02/07 19:11:57 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,11 @@
 
 static int		gnl(int fd, char **line)
 {
-	static char		*s;		// could this be the free problem...
+	static char		*s;
 	ssize_t			i;
 	char			*p;
-	char			b[BUFFER_SIZE + 1];		// or maybe its this, the buffer never gets freed cuz its fixed and contained in the funtion
+	char			b[BUFFER_SIZE + 1];		// shorten by using static buffer as content saver ????
 
-
-
-/*	char			*b;
-
-	b = NULL;
-	if (!(b = (char*)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
-		return (-1);
-	ft_bzero(b, BUFFER_SIZE + 1);
-
-*/
-
-
-//	printf("test 1\n");
 	p = NULL;
 	if ((i = ft_findchar(s, '\n')) != -1)
 	{
@@ -46,25 +33,15 @@ static int		gnl(int fd, char **line)
 	}
 	if (!line || !ft_bzero(b, BUFFER_SIZE + 1)
 		|| (i = read(fd, b, BUFFER_SIZE)) < -1 
-//		|| !printf("i = %zd\n", i)
-		|| (i > 0 && !(p = ft_strjoin(&s, b)))		// it might be the way i set this condition up... like the reason i never saw a segfault before 
-		|| (s && s[0] && ++i == 1 && !(*line = ft_strjoin(&s, "")))		// wait hold on this may be the one that fucks up...
-		|| (i < 1 && !(*line) && !(*line = ft_strsub(NULL, 0, 0))) || i < 0		// )
-			)
-	{
-//		free(b);
-		return (-1);
-	}
-	if (i > 0)
-	{
-//		if (p[0] == '\0')		// more conditions ????
-//			return (0);
+		|| (i > 0 && !(p = ft_strjoin(&s, b)))		// free was fucking up in strjoin cuz there are 2 strjoins one after other so double free...
+		|| (s && s[0] && ++i == 1 && !(*line = ft_strjoin(&s, (void*)0)))		// ((void*)0) ???		// could be fixed if i have better conditions ????
+		|| (i < 1 && !(*line) && !(*line = ft_strsub(NULL, 0, 0))) || i < 0)
+		return (-1);		// do i need to free things before this -1 ret ? like s ? or p ?
+//	if (i > 0)
+//	{
 		free(s);
 		s = p;
-//		free(p);
-	}
-//	free(p);
-//	free(b);
+//	}
 	return ((i > 0) ? gnl(fd, line) : 0);
 }
 
