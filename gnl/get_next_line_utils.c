@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 15:21:58 by erlazo            #+#    #+#             */
-/*   Updated: 2020/02/07 17:26:22 by erlazo           ###   ########.fr       */
+/*   Updated: 2020/02/07 18:37:09 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,10 +133,10 @@ char	*ft_strjoin(char **s1, char *s2)
 	}
 	ret[a] = '\0';
 //	if (*s1 && **s1)			// not convinced this is safe enough ....
-	if (s1 && *s1)
-	{
+//	if (s1 && *s1)
+//	{
 //		ft_bzero(*s1, ft_strlen(*s1));
-		free(*s1);
-	}
+//		free(*s1);
+//	}
 	return (ret);
 }

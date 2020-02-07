@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 11:00:08 by erlazo            #+#    #+#             */
-/*   Updated: 2020/02/07 18:15:54 by erlazo           ###   ########.fr       */
+/*   Updated: 2020/02/07 18:37:13 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,9 @@ static int		gnl(int fd, char **line)
 	{
 //		if (p[0] == '\0')		// more conditions ????
 //			return (0);
+		free(s);
 		s = p;
-		free(p);
+//		free(p);
 	}
 //	free(p);
 //	free(b);
