@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 11:00:08 by erlazo            #+#    #+#             */
-/*   Updated: 2020/01/30 17:36:33 by erlazo           ###   ########.fr       */
+/*   Updated: 2020/02/11 17:02:34 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ static int		gnl(char **l, char **s, t_glst **lst, t_glst *elem)
 		*s = p;
 		return (1);
 	}
-	if (!l || !ft_bzero(b, BUFFER_SIZE + 1)
+	if (BUFFER_SIZE <= 0 || !l || !ft_bzero(b, BUFFER_SIZE + 1)
 		|| (i = read(elem->fd, b, BUFFER_SIZE)) < -1
 		|| (i > 0 && !(p = ft_strjoin(s, b)))
-		|| (*s && *s[0] && ++i == 1 && !(*l = ft_strjoin(s, "")))
+		|| (*s && *s[0] && ++i == 1 && !(*l = ft_strjoin(s, (void*)0)))
 		|| (i < 1 && !(*l) && !(*l = ft_strsub(NULL, 0, 0))) || i < 0)
 		return (-1);
-	if (i > 0)
-		*s = p;
+	free(*s);
+	*s = p;
 	return ((i > 0) ? gnl(l, s, lst, elem) : term(lst, elem));
 }
 
