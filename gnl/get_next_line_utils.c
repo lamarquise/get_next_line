@@ -6,50 +6,22 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 15:21:58 by erlazo            #+#    #+#             */
-/*   Updated: 2020/02/07 18:37:09 by erlazo           ###   ########.fr       */
+/*   Updated: 2020/02/11 17:04:13 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include <stdio.h>		// REMOVE !!!!!!!
-
 #include "get_next_line.h"
-
-
-			// what do i remove to make room for this ????
-			// modify the join ???? perhaps....
-
-void	*ft_memmove(void *dst, const void *src, size_t len)
-{
-	size_t	a;
-
-	if ((!dst && !src) || dst == src)
-		return (dst);		// was NULL
-	if ((int)dst - (int)src < 0)
-	{
-		a = -1;
-		while (++a < len)
-			((unsigned char*)dst)[a] = ((unsigned char*)src)[a];
-	}
-	else
-	{
-		a = len;
-		while (a-- > 0)
-			((unsigned char*)dst)[a] = ((unsigned char*)src)[a];
-	}
-	return (dst);
-}
-
-
-
 
 size_t	ft_strlen(const char *s)
 {
 	size_t	a;
 
 	a = 0;
-	while (s && s[a])		// should i do an if around cuz better for number of operations
-		++a;
+	if (s)
+	{
+		while (s[a])
+			++a;
+	}
 	return (a);
 }
 
@@ -107,15 +79,10 @@ char	*ft_strjoin(char **s1, char *s2)
 	char	*ret;
 	int		c;
 
-//	printf("join test 1\n");
-
 	ret = NULL;
-	
 	if ((!s1 || !*s1) && !s2)
 		return (NULL);
-	a = 1;
 	a = ft_strlen(*s1) + ft_strlen(s2) + 1;
-//	printf("join test 1, i = %d\n", a);
 	if (!(ret = (char*)malloc(sizeof(char) * a)))
 		return (NULL);
 	ft_bzero(ret, a);
@@ -132,11 +99,5 @@ char	*ft_strjoin(char **s1, char *s2)
 		++s2;
 	}
 	ret[a] = '\0';
-//	if (*s1 && **s1)			// not convinced this is safe enough ....
-//	if (s1 && *s1)
-//	{
-//		ft_bzero(*s1, ft_strlen(*s1));
-//		free(*s1);
-//	}
 	return (ret);
 }

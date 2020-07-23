@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 15:21:58 by erlazo            #+#    #+#             */
-/*   Updated: 2020/01/30 17:37:13 by erlazo           ###   ########.fr       */
+/*   Updated: 2020/02/11 17:04:56 by erlazo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@ size_t	ft_strlen(const char *s)
 	size_t	a;
 
 	a = 0;
-	while (s && s[a])
-		++a;
+	if (s)
+	{
+		while (s[a])
+			++a;
+	}
 	return (a);
 }
 
@@ -76,7 +79,7 @@ char	*ft_strjoin(char **s1, char *s2)
 	char	*ret;
 	int		c;
 
-	if (!s1 && !s2)			// something else too ??? !*s1 ???
+	if ((!s1 || !*s1) && !s2)
 		return (NULL);
 	a = ft_strlen(*s1) + ft_strlen(s2) + 1;
 	if (!(ret = (char*)malloc(sizeof(char) * a)))
@@ -95,10 +98,5 @@ char	*ft_strjoin(char **s1, char *s2)
 		++s2;
 	}
 	ret[a] = '\0';
-	if (*s1 && **s1)			// not convinced this is safe enough ....
-//	{
-//		ft_bzero(*s1, ft_strlen(*s1));
-		free(*s1);
-//	}
 	return (ret);
 }
