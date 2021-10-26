@@ -6,7 +6,7 @@
 /*   By: erlazo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 14:55:59 by erlazo            #+#    #+#             */
-/*   Updated: 2020/02/11 18:02:08 by erlazo           ###   ########.fr       */
+/*   Updated: 2020/10/28 16:34:06 by ericlazo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+
+//# define BUFFER_SIZE = 42
 
 int				get_next_line(int fd, char **line);
 size_t			ft_strlen(const char *s);

@@ -6,7 +6,7 @@
 #    By: erlazo <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/31 17:57:37 by erlazo            #+#    #+#              #
-#    Updated: 2020/02/07 19:11:35 by erlazo           ###   ########.fr        #
+#    Updated: 2020/10/28 16:36:01 by ericlazo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ CFLAGS	=	-Wall -Werror -Wextra
 all:	$(NAME)
 
 $(NAME):	$(OBJ)
-	$(CC) $(CFLAGS) -D BUFFER_SIZE=4 -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ -g
 
 clean:
 	rm -rf $(OBJ) $(OBJ_B)
