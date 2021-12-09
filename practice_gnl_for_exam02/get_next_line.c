@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gnl.c                                              :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: me <erlazo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 08:56:33 by me                #+#    #+#             */
-/*   Updated: 2021/12/09 15:35:03 by erlazo           ###   ########.fr       */
+/*   Updated: 2021/12/09 22:16:30 by me               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,9 +166,14 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (i == 0)
 	{
+		// here was the mistake i was making:
+		line = ft_strdup(s);
 		if (s)
-			return (s);
-		return (NULL);
+		{
+			free(s);
+			s = NULL; // super important
+		}
+		return (line);
 	}
 	if (i > 0)
 	{
@@ -187,6 +192,7 @@ char	*get_next_line(int fd)
 		return (get_next_line(fd));
 	}
 	
+
 	// yea ok i'm not sure anymore... what do i return?
 	printf("end end of GNL, not sure we ever get here...\n");
 
